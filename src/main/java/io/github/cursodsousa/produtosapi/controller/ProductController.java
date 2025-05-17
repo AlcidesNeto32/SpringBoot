@@ -2,14 +2,13 @@ package io.github.cursodsousa.produtosapi.controller;
 
 import io.github.cursodsousa.produtosapi.model.Product;
 import io.github.cursodsousa.produtosapi.repository.ProductRepository;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.UUID;
 
 @RestController
-@RequestMapping("produtos")
+@RequestMapping("product")
+// name of request in url
 public class ProductController {
 
     private ProductRepository productRepository;
@@ -22,11 +21,20 @@ public class ProductController {
     //Is used to send or save datas
     // post -> save or create data in to server
     //everything what you send or receive to server are called funds
-    public Product returnProducts(@RequestBody Product pr ){
-        System.out.println("Product Received " + pr);
+    public Product returnProducts(@RequestBody Product product ){
+        System.out.println("Product Received " + product);
         var id  = UUID.randomUUID().toString();
-        pr.setId(id);
-        productRepository.save(pr);
-        return pr;
+        product.setId(id);
+        productRepository.save(product);
+        return product;
+    }
+
+    @GetMapping("{id}")
+    //is used to get data and this -> {} is the parameter and you put the name of same inside of keys
+    public Product showProductByID(@PathVariable("id") String id){
+        //@PathVariable is used to define parameters and is necessary define the same inside of ()
+        // Optional<Product> product = productRepository.findById(id);
+        // return product.isPresent() ? product.get() : null;
+        return productRepository.findById(id).orElse(null);
     }
 }
