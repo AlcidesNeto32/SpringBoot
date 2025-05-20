@@ -26,8 +26,6 @@ public class Product {
     @Column(name = "price")
     private Double price;
 
-
-
     public String getId() {
         return id;
     }
